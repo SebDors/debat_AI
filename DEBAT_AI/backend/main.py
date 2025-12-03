@@ -39,6 +39,10 @@ class MessageIn(BaseModel):
     content: str
     username: str # We'll use username to find/create user
 
+class DebateIn(BaseModel):
+    topic: str
+
+
 # --- WebSocket Connection Manager ---
 class ConnectionManager:
     def __init__(self):
@@ -90,6 +94,16 @@ async def get_debates():
     async with db_pool.acquire() as connection:
         rows = await connection.fetch("SELECT id, topic FROM debates ORDER BY created_at DESC")
         return [Debate(id=row['id'], topic=row['topic']) for row in rows]
+
+@app.post("/api/debates", response_model=Debate, status_code=201)
+async def create_debate(debate_in: DebateIn):
+    db_pool = await get_pool()
+    async with db_pool.acquire() as connection:
+        row = await connection.fetchrow(
+            "INSERT INTO debates (topic) VALUES ($1) RETURNING id, topic",
+            debate_in.topic
+        )
+        return Debate(id=row['id'], topic=row['topic'])
 
 @app.get("/api/debates/{debate_id}/messages", response_model=List[Message])
 async def get_messages(debate_id: int):
