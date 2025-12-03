@@ -3,4 +3,5 @@ uvicorn[standard]
 psycopg2-binary
 asyncpg
 python-dotenv
-
+openai
+pydantic
