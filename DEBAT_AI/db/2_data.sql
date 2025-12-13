@@ -17,11 +17,9 @@ INSERT INTO debates (topic) VALUES ('Faut-il instaurer un revenu universel ?');
 -- ID 4
 INSERT INTO debates (topic) VALUES ('Les réseaux sociaux sont-ils un danger pour la démocratie ?');
 -- ID 5
-INSERT INTO debates (topic) VALUES ('Chien ou Chat ?');
+INSERT INTO debates (topic) VALUES ('Les chiens sont-ils meilleurs que les chats ?');
 -- ID 6
 INSERT INTO debates (topic) VALUES ('Pour ou contre les boissons gazeuses ?');
--- ID 7
-INSERT INTO debates (topic) VALUES ('L œuf ou la poule ?');
 
 
 -- ============================================================
