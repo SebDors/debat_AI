@@ -224,10 +224,10 @@ export class DebateViewComponent implements OnInit, OnDestroy, AfterViewChecked 
     // 1. Calcul du gagnant
     if (this.scoreA > this.scoreB) {
       this.winnerName = this.playerA;
-      this.winnerMessage = `${this.playerA} wins by logic!`;
+      this.winnerMessage = `${this.playerA} wins !`;
     } else if (this.scoreB > this.scoreA) {
       this.winnerName = this.playerB;
-      this.winnerMessage = `${this.playerB} wins by logic!`;
+      this.winnerMessage = `${this.playerB} wins !`;
     } else {
       this.winnerName = 'Draw';
       this.winnerMessage = "It's a perfect tie!";

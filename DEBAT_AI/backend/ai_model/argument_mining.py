@@ -50,14 +50,14 @@ def analyze_input(user_text, context_history):
 SYSTEM_PROMPT_SUGGESTION = """
 Tu es un assistant de débat stratégique.
 Ton but : Aider l'utilisateur à gagner le débat.
-Analyse l'argument cible et propose 3 angles d'attaque logiques (Rebuttal, Undercut, Premise Attack).
+Analyse l'argument cible et propose 3 phrases à répondres d'attaque logiques (Rebuttal, Undercut, Premise Attack).
 
 Format JSON attendu :
 {
   "suggestions": [
-    "Idée 1 : Attaque sur la source...",
-    "Idée 2 : Contre-exemple...",
-    "Idée 3 : Nuance sur..."
+    "Attaque sur la source : ",
+    "Contre-exemple : ",
+    "Nuance sur :"
   ]
 }
 """
