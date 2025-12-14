@@ -1,6 +1,7 @@
 export interface Debate {
     id: number;
     topic: string;
+    selectionCount?: number;
 }
 
 export interface Message {

@@ -1,105 +1,61 @@
 <div class="container">
-  
-  <!-- 1. LA BANNIÈRE DE TITRE (Nouveau) -->
-  <div class="topic-banner" *ngIf="debateTopic">
-    <h3>{{ debateTopic }}</h3>
-  </div>
 
-  <!-- 2. LE HEADER (Scoreboard + Actions) -->
+  <!-- Header -->
   <header class="debate-header">
-    
-    <!-- Bouton Retour -->
-    <a routerLink="/" class="icon-btn" title="Exit without saving">✕</a>
+    <a routerLink="/" class="icon-btn" title="Exit">←</a>
 
-    <!-- Score Board -->
-    <div class="score-board">
-      <div class="score-side side-a" [class.leading]="scoreA > scoreB">
-        <span class="score-name">{{ playerA }}</span>
-        <span class="score-num">{{ scoreA }}</span>
-      </div>
-      <div class="vs-badge">VS</div>
-      <div class="score-side side-b" [class.leading]="scoreB > scoreA">
-        <span class="score-num">{{ scoreB }}</span>
-        <span class="score-name">{{ playerB }}</span>
+    <div class="topic-banner" *ngIf="debateTopic">
+      <h3>{{ debateTopic }}</h3>
+      <!-- Score Board -->
+      <div class="score-board">
+        <div class="score-side side-a" [class.leading]="scoreA > scoreB">
+          <span class="score-name">{{ playerA }}</span>
+          <span class="score-num">{{ scoreA }}</span>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="score-side side-b" [class.leading]="scoreB > scoreA">
+          <span class="score-num">{{ scoreB }}</span>
+          <span class="score-name">{{ playerB }}</span>
+        </div>
       </div>
     </div>
 
-    <!-- Actions à droite (Switcher + Finish) -->
-    <div class="header-actions" style="display: flex; gap: 10px; align-items: center;">
-      
-      <!-- Switcher de Joueur -->
+    <div class="header-actions">
+      <!-- User Switcher -->
       <div class="user-toggle">
-        
-        <!-- JOUEUR A (PRO) -->
-        <button 
-          class="toggle-btn" 
-          [class.active]="username === playerA"
-          (click)="switchUser(playerA)">
-          <span class="role-tag pro">PRO</span>
-          {{ playerA }}
-        </button>
-
-        <!-- JOUEUR B (CON) -->
-        <button 
-          class="toggle-btn" 
-          [class.active]="username === playerB"
-          (click)="switchUser(playerB)">
-          <span class="role-tag con">CON</span>
-          {{ playerB }}
-        </button>
-
+        <button class="toggle-btn" [class.active]="username === playerA" (click)="switchUser(playerA)">{{ playerA }}</button>
+        <button class="toggle-btn" [class.active]="username === playerB" (click)="switchUser(playerB)">{{ playerB }}</button>
       </div>
-
-      <!-- BOUTON FINISH -->
-      <button class="btn-finish" (click)="finishDebate()">
-        🏁 FINISH
-      </button>
-
-    </div> 
-    <!-- Fin de header-actions (C'est souvent ce div qui manquait) -->
-
+      <!-- Finish Button -->
+      <button class="btn-finish" (click)="finishDebate()">🏁</button>
+    </div>
   </header>
 
-  <!-- 3. ZONE DES MESSAGES -->
+  <!-- Message Area -->
   <div class="message-container" #messageContainer>
     <div *ngIf="messages.length === 0" class="loading">
-      Start the debate! Type a message as {{ username }}...
+      Start the debate!
     </div>
 
-    <div *ngFor="let msg of messages" class="message" 
-         [ngClass]="{
-           'my-message': msg.username === username, 
-           'other-message': msg.username !== username
-         }">
-      
-      <!-- BULLE -->
-      <div class="message-bubble" 
-           [class.winner-bubble]="isWinner(msg.id)"
-           [class.loser-bubble]="!isWinner(msg.id)">
-        
-        <!-- Header Message -->
+    <div *ngFor="let msg of messages" class="message" [ngClass]="{
+        'my-message': msg.username === username,
+        'other-message': msg.username !== username
+      }">
+      <div class="message-bubble">
         <div class="message-header-row">
           <div class="message-author">{{ msg.username }}</div>
-          
           <span *ngIf="msg.relation_type === 'attack'" class="badge badge-attack">⚔️ ATTACK</span>
           <span *ngIf="msg.relation_type === 'support'" class="badge badge-support">🛡️ SUPPORT</span>
           <span *ngIf="msg.target_id" class="target-ref">↳ Ref #{{msg.target_id}}</span>
         </div>
-
-        <!-- Contenu -->
         <div class="message-content">{{ msg.content }}</div>
-
-        <!-- Feedback IA -->
         <div *ngIf="msg.feedback" class="ai-feedback">
           🤖 <em>Analyze: {{ msg.feedback }}</em>
         </div>
-
-        <!-- Suggestions -->
         <div *ngIf="msg.username !== username" class="suggestion-area">
           <button (click)="askForHelp(msg.id)" class="btn-help" *ngIf="!suggestionsMap[msg.id]">
-            {{ loadingSuggestionId === msg.id ? 'Thinking...' : '💡 Suggest Counter-Argument' }}
+            {{ loadingSuggestionId === msg.id ? 'Thinking...' : '💡 Suggest' }}
           </button>
-
           <div *ngIf="suggestionsMap[msg.id]" class="suggestions-box">
             <small><strong>AI Suggestions:</strong></small>
             <ul>
@@ -107,56 +63,38 @@
             </ul>
           </div>
         </div>
-        
-
       </div>
     </div>
   </div>
 
-  <!-- 4. FOOTER (INPUT) -->
+  <!-- Input Footer -->
   <footer class="message-form-container">
-    <form>
-      <textarea 
-        class="chat-input"
-        [placeholder]="'Type your argument as ' + username + '...'"
-        [(ngModel)]="newMessageContent"
-        name="newMessageContent"
-        (keydown)="onKeydown($event)"
-        rows="1"
-      ></textarea>
-      
-      <button type="button" (click)="sendMessage()" [disabled]="!newMessageContent.trim()">
-        Send
-      </button>
+    <form (submit)="sendMessage()">
+      <textarea class="chat-input" [placeholder]="'Type your argument as ' + username + '...'"
+        [(ngModel)]="newMessageContent" name="newMessageContent" (keydown)="onKeydown($event)" rows="1"></textarea>
+      <button type="submit" [disabled]="!newMessageContent.trim()"></button>
     </form>
   </footer>
 
-  <!-- MODALE DE VICTOIRE (Overlay) -->
+  <!-- Winner Modal -->
   <div class="winner-overlay" *ngIf="showWinnerModal">
     <div class="winner-card-popup">
-      
       <div class="trophy-icon">🏆</div>
-      
       <h2>DEBATE FINISHED</h2>
-      
       <div class="winner-announce">
         <span *ngIf="winnerName !== 'Draw'" class="the-winner">Winner: {{ winnerName }}</span>
         <span *ngIf="winnerName === 'Draw'" class="the-winner">It's a Draw!</span>
       </div>
-
       <div class="final-score-display">
-        <span [class.win-text]="scoreA >= scoreB">{{ playerA }} ({{ scoreA }})</span>
+        <span>{{ playerA }} ({{ scoreA }})</span>
         <span class="vs-text">vs</span>
-        <span [class.win-text]="scoreB >= scoreA">{{ playerB }} ({{ scoreB }})</span>
+        <span>{{ playerB }} ({{ scoreB }})</span>
       </div>
-
       <p class="winner-subtext">{{ winnerMessage }}</p>
-
       <div class="modal-actions">
-        <button class="btn-cancel-modal" (click)="cancelFinish()">Wait, continue debate</button>
-        <button class="btn-confirm-modal" (click)="confirmReset()">End & Reset Match</button>
+        <button (click)="cancelFinish()">Continue</button>
+        <button (click)="confirmReset()">End & Reset</button>
       </div>
-
     </div>
   </div>
 

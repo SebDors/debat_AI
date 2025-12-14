@@ -14,8 +14,8 @@ import { Debate } from '../../models';
 })
 export class TopicsListComponent implements OnInit {
   debates: Debate[] = [];
+  viewMode: 'grid' | 'list' = 'grid';
   
-  // Gestion de la modale de configuration
   selectedDebate: Debate | null = null;
   debaterA: string = 'Alice';
   debaterB: string = 'Bob';
@@ -24,41 +24,58 @@ export class TopicsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getDebates().subscribe(data => {
-      this.debates = data;
+      const counts = this.getDebateCounts();
+      this.debates = data.map(debate => ({
+        ...debate,
+        selectionCount: counts[debate.id] || 0
+      }));
     });
   }
 
-  // 1. Ouvre la fenêtre de config quand on clique sur un sujet
-  openSetup(debate: Debate): void {
-    this.selectedDebate = debate;
+  setViewMode(mode: 'grid' | 'list'): void {
+    this.viewMode = mode;
   }
 
-  // 2. Ferme la fenêtre
+  openSetup(debate: Debate): void {
+    this.selectedDebate = debate;
+    this.incrementDebateCount(debate.id);
+  }
+
   closeSetup(): void {
     this.selectedDebate = null;
   }
 
-  // 3. Lance le débat et sauvegarde les noms
   startDebate(): void {
     if (!this.selectedDebate || !this.debaterA.trim() || !this.debaterB.trim()) {
       return;
     }
 
-    // 1. Sauvegarder les noms
     localStorage.setItem('debaterA', this.debaterA);
     localStorage.setItem('debaterB', this.debaterB);
     localStorage.setItem('username', this.debaterA);
-
-    // 2. Sauvegarder le TITRE du débat (pour l'afficher après)
     localStorage.setItem('debateTopic', this.selectedDebate.topic);
 
-    // 3. CRÉATION DE LA CLÉ DE SESSION UNIQUE
-    // On trie les noms pour que "Alice vs Bob" soit pareil que "Bob vs Alice"
     const participants = [this.debaterA, this.debaterB].sort().join('_');
     const sessionId = `${this.selectedDebate.id}_${participants}`;
     
     localStorage.setItem('currentSessionId', sessionId);
 
     this.router.navigate(['/debates', this.selectedDebate.id]);
+  }
+
+  private getDebateCounts(): { [key: number]: number } {
+    const counts = localStorage.getItem('debateCounts');
+    return counts ? JSON.parse(counts) : {};
+  }
+
+  private incrementDebateCount(debateId: number): void {
+    const counts = this.getDebateCounts();
+    counts[debateId] = (counts[debateId] || 0) + 1;
+    localStorage.setItem('debateCounts', JSON.stringify(counts));
+    // Update the count in the component's data as well
+    const debate = this.debates.find(d => d.id === debateId);
+    if (debate) {
+      debate.selectionCount = counts[debateId];
+    }
   }
 }

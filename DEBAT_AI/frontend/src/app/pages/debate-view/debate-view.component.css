@@ -1,269 +1,249 @@
 :host {
   display: flex;
-  justify-content: center;
-  font-family: var(--font-family-sans);
+  height: 100vh;
+  width: 100%;
   box-sizing: border-box;
-  flex-grow: 1;
 }
 
 .container {
-  width: 100%;
-  max-width: 900px;
   display: flex;
   flex-direction: column;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  overflow: hidden;
-  background-color: rgba(255,255,255,0.9);
-  margin: 2rem;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: #f0f2f5;
+}
+
+/* --- HEADER --- */
+.debate-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 10px 16px;
+  background-color: #00a884;
+  color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.icon-btn {
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
 }
 
 .topic-banner {
-  background-color: var(--color-silk-900); /* Fond sombre */
-  color: white;
   text-align: center;
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  /* On s'assure qu'il n'y a pas d'espace blanc entre la bannière et le header */
-  margin-bottom: 0; 
+  flex-grow: 1;
 }
 
 .topic-banner h3 {
   margin: 0;
   font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
+  font-weight: 600;
 }
 
-/* --- HEADER DU MATCH --- */
-.debate-header {
-  display: grid;
-  grid-template-columns: 40px 1fr auto; /* Retour | Score | Switcher */
+.header-actions {
+  display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--color-silk-200);
-  background-color: var(--color-silk-50);
 }
-
-.icon-btn {
-  text-decoration: none; color: #999; font-size: 1.2rem; font-weight: bold;
-  display: flex; align-items: center; justify-content: center;
-  width: 35px; height: 35px; border-radius: 50%; transition: background 0.2s;
-}
-.icon-btn:hover { background: #eee; color: #333; }
 
 /* Score Board */
 .score-board {
-  display: flex; align-items: center; justify-content: center; gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 10px;
+  border-radius: 20px;
 }
 .score-side {
-  display: flex; flex-direction: column; align-items: center;
-  opacity: 0.5; transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.8;
+  transition: all 0.3s;
 }
 .score-side.leading {
-  opacity: 1; transform: scale(1.1); font-weight: bold; color: #28a745;
+  opacity: 1;
+  font-weight: bold;
 }
-.score-num { font-size: 1.8rem; line-height: 1; font-weight: 800; }
-.score-name { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
-.vs-badge { font-weight: bold; color: #ccc; font-size: 0.8rem; }
+.score-num {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.score-name {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+}
+.vs-badge {
+  font-weight: bold;
+  color: white;
+  font-size: 0.7rem;
+}
 
-/* Switcher "Pill" (Style Moderne) */
+/* User Toggle */
 .user-toggle {
-  background: #e9ecef;
-  padding: 4px;
-  border-radius: 25px;
   display: flex;
-  gap: 2px;
+  gap: 5px;
 }
 .toggle-btn {
   background: transparent;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
+  border: 1px solid white;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #666;
-  transition: all 0.2s ease;
+  font-size: 0.8rem;
 }
 .toggle-btn.active {
   background: white;
-  color: #000;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: #00a884;
 }
 
-/* --- MESSAGERIE --- */
+.role-tag {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: white;
+  vertical-align: middle;
+}
+.role-tag.pro { background-color: #0d6efd; }
+.role-tag.con { background-color: #dc3545; }
+
+/* Finish Button */
+.btn-finish {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* --- MESSAGE CONTAINER --- */
 .message-container {
-  flex-grow: 1; padding: 1.5rem 2rem; overflow-y: auto; background-color: transparent;
-  display: flex; flex-direction: column; gap: 1rem; min-height: 300px; max-height: 60vh;
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background-image: url('/assets/images/premierfond.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.message { display: flex; width: 100%; }
+.message {
+  display: flex;
+  width: 100%;
+}
 
 .message-bubble {
-  max-width: 75%; padding: 1rem 1.2rem; border-radius: 18px; position: relative;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-  transition: border 0.3s ease, background-color 0.3s ease;
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 7.5px;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
 }
 
-.message-header-row {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;
-}
-
-.message-author { font-size: 0.85rem; font-weight: 600; color: var(--color-silk-700); }
-.message-content { line-height: 1.4; }
-
-/* Messages adverses */
+/* ... existing message bubble styles ... */
 .other-message { justify-content: flex-start; }
-.other-message .message-bubble { background-color: var(--color-silk-100); border-top-left-radius: 5px; }
-
-/* Mes messages */
+.other-message .message-bubble { background-color: #ffffff; border-top-left-radius: 0; }
 .my-message { justify-content: flex-end; }
-.my-message .message-bubble {
-  background-color: var(--color-silk-300); color: white; border-top-right-radius: 5px;
+.my-message .message-bubble { background-color: #dcf8c6; border-top-right-radius: 0; }
+.my-message .message-author { display: none; }
+.message-author { font-size: 0.8rem; font-weight: 700; }
+.other-message .message-author { color: #00a884; }
+.message-content { font-size: 0.9rem; line-height: 1.4; }
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #667781;
+  background-color: #e9edef;
+  border-radius: 8px;
+  margin: auto;
+  width: fit-content;
 }
-/* On cache le nom de l'auteur pour ses propres messages */
-.my-message .message-author { display: none; } 
 
-.loading { text-align: center; padding: 2rem; color: var(--color-silk-500); width: 100%; }
-
-
-/* --- FOOTER INPUT --- */
+/* --- MESSAGE INPUT FORM --- */
 .message-form-container {
-  padding: 1.5rem 2rem;
-  border-top: 1px solid var(--color-silk-200);
-  background-color: var(--color-silk-50);
+  padding: 8px 16px;
+  background-color: #f0f2f5;
+  border-top: 1px solid #d1d7db;
+  display: flex;
+  align-items: center;
 }
 
 .message-form-container form {
   display: flex;
   gap: 1rem;
-  align-items: flex-end; /* Aligne le bouton en bas si le texte est long */
+  align-items: center;
+  width: 100%;
 }
 
-/* Le nouveau style du textarea */
 .chat-input {
   flex-grow: 1;
-  padding: 12px 1.5rem;
-  border: 1px solid var(--color-silk-300);
-  border-radius: 20px; /* Arrondi */
-  font-size: 1rem;
-  background-color: var(--color-silk-50);
-  color: var(--color-silk-900);
-  font-family: inherit; /* Garde la même police que le reste */
-  
-  /* Gestion de la taille */
-  resize: none; /* Empêche l'utilisateur de déformer le design */
-  height: 50px; /* Hauteur de base */
-  min-height: 50px;
-  max-height: 150px; /* Hauteur max avant de scroller */
-  overflow-y: auto; /* Scroll si le texte est trop long */
-  line-height: 1.4;
+  padding: 9px 12px;
+  border: 1px solid #d1d7db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  resize: none;
+  overflow-y: auto;
+  max-height: 100px;
+  line-height: 1.5;
 }
 
 .chat-input:focus {
   outline: none;
-  border-color: var(--color-silk-500);
-  box-shadow: 0 0 0 2px rgba(92,92,92,0.2);
+  border-color: #00a884;
 }
 
 .message-form-container button {
-  padding: 0 2rem; /* Ajustement padding */
-  height: 50px;    /* Même hauteur que le champ texte au repos */
-  border: none;
-  background-color: var(--color-silk-600);
-  color: white;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.message-form-container button:hover { background-color: var(--color-silk-700); }
-.message-form-container button:disabled { background-color: var(--color-silk-300); cursor: not-allowed; }
-
-/* =========================================
-   --- STYLES IA & NEURO-SYMBOLIQUE ---
-   ========================================= */
-
-/* 1. Indicateurs de victoire (Tweety Logic) */
-.winner-bubble {
-  border-left: 6px solid #28a745 !important; /* VERT */
-  box-shadow: 0 0 10px rgba(40,167,69,0.15);
-}
-.loser-bubble {
-  border-left: 6px solid #dc3545 !important; /* ROUGE */
-  opacity: 0.8;
-}
-
-/* 2. Badges */
-.badge {
-  font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 800;
-  text-transform: uppercase; color: white;
-}
-.badge-attack { background-color: #e63946; }
-.badge-support { background-color: #457b9d; }
-
-.target-ref { font-size: 0.7rem; font-style: italic; margin-left: auto; }
-.my-message .target-ref { color: rgba(255,255,255,0.7); }
-.other-message .target-ref { color: #888; }
-
-/* 3. Feedback IA */
-.ai-feedback {
-  margin-top: 8px; padding: 6px 10px; background-color: #fff3cd; border: 1px dashed #ffecb5;
-  color: #856404; border-radius: 6px; font-size: 0.8rem; display: flex; align-items: center; gap: 5px;
-}
-
-/* 4. Suggestions */
-.suggestion-area {
-  margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 6px; text-align: right;
-}
-.btn-help {
-  background-color: #ffca3a; color: #000; border: none; padding: 4px 12px; border-radius: 15px;
-  font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.btn-help:hover { transform: scale(1.05); background-color: #ffc107; }
-
-.suggestions-box {
-  text-align: left; background-color: #fff; border: 1px solid #dee2e6; border-radius: 6px;
-  padding: 8px; margin-top: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-.suggestions-box strong { font-size: 0.75rem; color: #6c757d; display: block; margin-bottom: 4px; }
-.suggestions-box ul { margin: 0; padding-left: 18px; font-size: 0.85rem; color: #333; }
-.suggestions-box li { margin-bottom: 3px; }
-
-/* Bouton Finish */
-.btn-finish {
-  background-color: #343a40; /* Gris foncé / Noir */
+  background-color: #00a884;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 0.8rem;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: background 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.2s ease;
+}
+.message-form-container button::after {
+  content: '➢';
+  transform: rotate(-90deg);
 }
 
-.btn-finish:hover {
-  background-color: #000;
-  transform: translateY(-1px);
-}
+.message-form-container button:hover { background-color: #008e71; }
+.message-form-container button:disabled { background-color: #a0a0a0; cursor: not-allowed; }
 
+/* Winner Overlay */
 .winner-overlay {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.7); /* Fond noir transparent */
-  display: flex; justify-content: center; align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
-  border-radius: 15px; /* Pour suivre les bords du container */
-  animation: fadeIn 0.3s ease;
 }
 
 .winner-card-popup {
@@ -271,72 +251,34 @@
   padding: 2rem;
   border-radius: 20px;
   text-align: center;
-  width: 80%;
+  width: 90%;
   max-width: 400px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-  transform: scale(0.9);
-  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-.trophy-icon { font-size: 4rem; margin-bottom: 10px; }
-
-.winner-card-popup h2 {
-  margin: 0; color: #333; font-weight: 800; letter-spacing: 2px;
+/* AI Feedback & Suggestions */
+.ai-feedback, .suggestion-area, .badge {
+  /* You can style these as you wish or keep them minimal */
+  font-size: 0.8rem;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background: #f1f1f1;
 }
 
-.winner-announce { margin: 10px 0; font-size: 1.5rem; color: var(--color-silk-900); font-weight: bold; }
-
-.final-score-display {
-  display: flex; justify-content: center; gap: 15px;
-  margin: 20px 0; font-size: 1.2rem; background: #f8f9fa; padding: 10px; border-radius: 10px;
-}
-.win-text { color: #28a745; font-weight: bold; }
-.vs-text { color: #ccc; font-size: 0.9rem; margin-top: 3px; }
-
-.winner-subtext { color: #666; font-style: italic; margin-bottom: 25px; }
-
-.modal-actions { display: flex; flex-direction: column; gap: 10px; }
-
-.btn-confirm-modal {
-  background: #28a745; color: white; border: none; padding: 12px;
-  border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-confirm-modal:hover { background: #218838; }
-
-.btn-cancel-modal {
-  background: transparent; border: 1px solid #ccc; color: #666; padding: 10px;
-  border-radius: 10px; cursor: pointer;
-}
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes popIn { to { transform: scale(1); } }
-
-/* --- Styles des rôles (PRO / CON) --- */
-
-/* La petite étiquette */
-.role-tag {
-  font-size: 0.65rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-right: 8px; /* Espace entre le tag et le nom */
-  font-weight: 900;
-  letter-spacing: 0.5px;
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-weight: bold;
+  font-size: 0.7rem;
   color: white;
-  vertical-align: middle;
+  border-radius: 10px;
 }
+.badge-attack { background-color: #e63946; }
+.badge-support { background-color: #457b9d; }
 
-/* Couleurs spécifiques */
-.role-tag.pro {
-  background-color: #0d6efd; /* Bleu (Affirmative) */
-}
-
-.role-tag.con {
-  background-color: #dc3545; /* Rouge (Negative) */
-}
-
-/* Ajustement du bouton pour aligner le texte */
-.toggle-btn {
-  display: flex;
-  align-items: center;
+.target-ref {
+    font-size: 0.7rem;
+    font-style: italic;
+    margin-left: auto;
 }
