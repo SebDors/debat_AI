@@ -28,7 +28,7 @@
 body {
   background-color: var(--color-silk-50);
   font-family: var(--font-family-sans);
-  color: var(--color-silk-800);
+  color: white;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -44,7 +44,7 @@ app-root {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--color-silk-900);
+  color: white;
   font-weight: 600;
 }
 

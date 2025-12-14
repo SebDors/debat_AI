@@ -23,7 +23,7 @@
   align-items: center;
   gap: 1rem;
   padding: 10px 16px;
-  background-color: #00a884;
+  background-color: #5f6463;
   color: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -40,7 +40,7 @@
 }
 
 .topic-banner h3 {
-  margin: 0;
+  margin: 1em;
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -83,7 +83,8 @@
 .vs-badge {
   font-weight: bold;
   color: white;
-  font-size: 0.7rem;
+  font-size: 1rem; /* Increased from 0.7rem */
+  margin: 0 5px; /* Added some margin for better spacing */
 }
 
 /* User Toggle */
@@ -102,7 +103,7 @@
 }
 .toggle-btn.active {
   background: white;
-  color: #00a884;
+  color: #776ca3;
 }
 
 .role-tag {
@@ -115,12 +116,12 @@
   color: white;
   vertical-align: middle;
 }
-.role-tag.pro { background-color: #0d6efd; }
-.role-tag.con { background-color: #dc3545; }
+.role-tag.pro { background-color: #8e5066; }
+.role-tag.con { background-color: #169599; }
 
 /* Finish Button */
 .btn-finish {
-  background: #dc3545;
+  background: #f6f3f5;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -154,16 +155,17 @@
   position: relative;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   word-wrap: break-word;
+  transition: background-color 0.3s ease-in-out; /* Add transition for smooth highlight */
 }
 
 /* ... existing message bubble styles ... */
 .other-message { justify-content: flex-start; }
-.other-message .message-bubble { background-color: #ffffff; border-top-left-radius: 0; }
+.other-message .message-bubble { background-color: #7d6d7e; border-top-left-radius: 0; }
 .my-message { justify-content: flex-end; }
-.my-message .message-bubble { background-color: #dcf8c6; border-top-right-radius: 0; }
+.my-message .message-bubble { background-color: #577761; border-top-right-radius: 0; }
 .my-message .message-author { display: none; }
 .message-author { font-size: 0.8rem; font-weight: 700; }
-.other-message .message-author { color: #00a884; }
+.other-message .message-author { color: white; }
 .message-content { font-size: 0.9rem; line-height: 1.4; }
 
 .loading {
@@ -174,6 +176,11 @@
   border-radius: 8px;
   margin: auto;
   width: fit-content;
+}
+
+/* Highlighted Message */
+.highlighted-message .message-bubble {
+  background-color: #ffe0b2; /* A subtle orange/yellow for highlight */
 }
 
 /* --- MESSAGE INPUT FORM --- */
@@ -207,11 +214,11 @@
 
 .chat-input:focus {
   outline: none;
-  border-color: #00a884;
+  border-color: #5f6463;
 }
 
 .message-form-container button {
-  background-color: #00a884;
+  background-color: #5f6463;
   color: white;
   border: none;
   border-radius: 50%;
@@ -229,8 +236,24 @@
   transform: rotate(-90deg);
 }
 
-.message-form-container button:hover { background-color: #008e71; }
-.message-form-container button:disabled { background-color: #a0a0a0; cursor: not-allowed; }
+.message-form-container button:hover { background-color: #b7c4c1; }
+.message-form-container button:disabled { background-color: #151111; cursor: not-allowed; }
+
+/* Current User Avatar in Footer */
+.current-user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #010e0b; /* Or any distinct color */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: 10px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
 
 /* Winner Overlay */
 .winner-overlay {
@@ -247,6 +270,7 @@
 }
 
 .winner-card-popup {
+  color: black;
   background: white;
   padding: 2rem;
   border-radius: 20px;
@@ -255,15 +279,74 @@
   max-width: 400px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.3);
 }
+.winner-card-popup h2{
+  color: black;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-size: 1rem;
+}
+
+.btn-modal-primary {
+  background-color: #5f6463; /* Use a primary color from the theme */
+  color: white;
+}
+
+.btn-modal-primary:hover {
+  background-color: #7d6d7e; /* Darken or change for hover */
+  transform: translateY(-2px);
+}
+
+.btn-modal-secondary {
+  background-color: #e0e0e0; /* A neutral color */
+  color: #333;
+}
+
+.btn-modal-secondary:hover {
+  background-color: #c0c0c0; /* Darken on hover */
+  transform: translateY(-2px);
+}
+
 
 /* AI Feedback & Suggestions */
 .ai-feedback, .suggestion-area, .badge {
   /* You can style these as you wish or keep them minimal */
   font-size: 0.8rem;
-  margin-top: 5px;
   padding: 5px;
   border-radius: 5px;
-  background: #f1f1f1;
+}
+
+.btn-help {
+  background-color: #776ca3; /* Example color, adjust to palette */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-help:hover {
+  background-color: #8e5066; /* Darken on hover */
+}
+
+.btn-help:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
 }
 
 .badge {
@@ -281,4 +364,6 @@
     font-size: 0.7rem;
     font-style: italic;
     margin-left: auto;
+    cursor: pointer; /* Indicate clickability */
+    text-decoration: underline; /* Further indicate clickability */
 }

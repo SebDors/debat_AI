@@ -37,7 +37,8 @@
       Start the debate!
     </div>
 
-    <div *ngFor="let msg of messages" class="message" [ngClass]="{
+    <div *ngFor="let msg of messages" class="message" #messageElements [attr.id]="'message-' + msg.id"
+      [class.highlighted-message]="msg.id === highlightedMessageId" [ngClass]="{
         'my-message': msg.username === username,
         'other-message': msg.username !== username
       }">
@@ -46,7 +47,7 @@
           <div class="message-author">{{ msg.username }}</div>
           <span *ngIf="msg.relation_type === 'attack'" class="badge badge-attack">⚔️ ATTACK</span>
           <span *ngIf="msg.relation_type === 'support'" class="badge badge-support">🛡️ SUPPORT</span>
-          <span *ngIf="msg.target_id" class="target-ref">↳ Ref #{{msg.target_id}}</span>
+          <span *ngIf="msg.target_id" class="target-ref" (click)="scrollToMessage(msg.target_id)">↳ Ref #{{msg.target_id}}</span>
         </div>
         <div class="message-content">{{ msg.content }}</div>
         <div *ngIf="msg.feedback" class="ai-feedback">
@@ -69,6 +70,7 @@
 
   <!-- Input Footer -->
   <footer class="message-form-container">
+    <div class="current-user-avatar">{{ username.charAt(0) }}</div>
     <form (submit)="sendMessage()">
       <textarea class="chat-input" [placeholder]="'Type your argument as ' + username + '...'"
         [(ngModel)]="newMessageContent" name="newMessageContent" (keydown)="onKeydown($event)" rows="1"></textarea>
@@ -92,8 +94,8 @@
       </div>
       <p class="winner-subtext">{{ winnerMessage }}</p>
       <div class="modal-actions">
-        <button (click)="cancelFinish()">Continue</button>
-        <button (click)="confirmReset()">End & Reset</button>
+        <button (click)="cancelFinish()" class="btn-modal-secondary">Continue</button>
+        <button (click)="confirmReset()" class="btn-modal-primary">End & Reset</button>
       </div>
     </div>
   </div>

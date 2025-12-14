@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -18,6 +18,7 @@ import { Message } from '../../models';
 })
 export class DebateViewComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
+  @ViewChildren('messageElements') messageElements!: QueryList<ElementRef>;
 
   // Données de base
   messages: Message[] = [];
@@ -48,6 +49,8 @@ export class DebateViewComponent implements OnInit, OnDestroy, AfterViewChecked 
   showWinnerModal: boolean = false;
   winnerName: string = '';
   winnerMessage: string = '';
+
+  highlightedMessageId: number | null = null; // New property for highlighting
 
   constructor(
     private route: ActivatedRoute,
@@ -201,6 +204,20 @@ export class DebateViewComponent implements OnInit, OnDestroy, AfterViewChecked 
     try {
       this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
     } catch(err) { }
+  }
+
+  scrollToMessage(targetId: number): void {
+    const targetMessageElement = this.messageElements.find(
+      (el: ElementRef) => el.nativeElement.id === `message-${targetId}`
+    );
+
+    if (targetMessageElement) {
+      targetMessageElement.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this.highlightedMessageId = targetId;
+      setTimeout(() => {
+        this.highlightedMessageId = null;
+      }, 2000); // Highlight for 2 seconds
+    }
   }
 
   finishDebate(): void {
